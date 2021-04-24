@@ -1,0 +1,27 @@
+{
+  "extends": "@tsconfig/svelte/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "ESNext",
+    "target": "esnext",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "importHelpers": true,
+    "lib": [
+      "dom",
+      "scripthost",
+      "dom.iterable",
+      "esnext"
+    ],
+    "esModuleInterop": true,
+    "types": ["node", "svelte"],
+    "paths": {"src":  ["*"]},
+    "typeRoots": [
+      "./node_modules/@types/"
+    ]
+  },
+  "include": [
+    "./**/*"
+  ],
+  "exclude": ["node_modules/*"]
+}
