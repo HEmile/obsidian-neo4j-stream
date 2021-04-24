@@ -264,7 +264,7 @@ export class Neo4jStream extends Component {
         if (links === undefined) {
           return query;
         }
-        links.forEach(async (link) => {
+        for (const link of links) {
           let baseName = getLinkpath(link.link);//
           // Returns NULL for dangling notes!
           const trgtFile = this.metadataCache.getFirstLinkpathDest(baseName, file.path);
@@ -276,15 +276,23 @@ export class Neo4jStream extends Component {
           let trgtVar: string;
           if (baseName in queryMetadata.nodeVars) {
             trgtVar = queryMetadata.nodeVars[baseName];
+            if (trgtVar === 'n58') {
+              debugger;
+            }
           } else if (trgtFile && merge) {
             // When merging, there's likely no var created for this note yet.
             trgtVar = queryMetadata.nextNodeVar(baseName);
-            query = query.match(this.node(trgtVar, baseName))
-            ;
+            if (trgtVar === 'n58') {
+              debugger;
+            }
+            query = query.match(this.node(trgtVar, baseName));
           } else {
             // This node hasn't been seen before, so we need to create it.
             // Creates dangling nodes if untyped, otherwise creates attachment nodes
             trgtVar = queryMetadata.nextNodeVar(baseName);
+            if (trgtVar === 'n58') {
+              debugger;
+            }
             const nodeDef = await this.createNode(trgtFile, baseName);
             if (merge) {
               query = query.merge(node(trgtVar, nodeDef.labels, nodeDef.properties))
@@ -315,7 +323,7 @@ export class Neo4jStream extends Component {
           if (merge) {
             query.with(queryMetadata.values());
           }
-        });
+        }
 
         return query;
       }
